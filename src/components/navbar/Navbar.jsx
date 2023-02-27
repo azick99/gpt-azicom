@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri'
 import logo from '../../assets/logo.svg'
 import './navbar.styles.scss'
@@ -14,7 +14,7 @@ const Menu = () => (
       <a href="#possibility">Open AI</a>
     </p>
     <p>
-      <a href="#feature">Case Studies</a>
+      <a href="#features">Case Studies</a>
     </p>
     <p>
       <a href="#blog">Library</a>
@@ -23,8 +23,24 @@ const Menu = () => (
 )
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false)
+
+  const [stickyClass, setStickyClass] = useState('')
+
+  useEffect(() => {
+    window.addEventListener('scroll', stickNavbar)
+    return () => window.removeEventListener('scroll', stickNavbar)
+  }, [])
+
+  const stickNavbar = () => {
+    if (window !== undefined) {
+      let windowHeight = window.scrollY
+      // window height changed for the demo
+      windowHeight > 150 ? setStickyClass('sticky-nav') : setStickyClass('')
+    }
+  }
+
   return (
-    <div className="gpt3__navbar">
+    <div className={`gpt3__navbar ${stickyClass}`}>
       <div className="gpt3__navbar-links">
         <div className="gpt3__navbar-links__logo">
           <img src={logo} alt="logo" />
